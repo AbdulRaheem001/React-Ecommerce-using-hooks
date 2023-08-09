@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react";
-import { CartContext } from "../ContextFolder/AddtocartContext";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { removeItem, setQuantity } from "../Slice/userSlice";
 import "../Styles/Cart.css";
-import {useSelector} from "react-redux";
-import { removeItem } from "../Slice/userSlice";
-import {setQuantity} from "../Slice/userSlice";
-import {useDispatch } from "react-redux";
-import {  useNavigate } from "react-router-dom";
+
 const Cart = () => {
-  const { cart, dispatch } = useContext(CartContext);
+
   const [coupon, setCoupon] = useState(10);
   const [couponApplied, setCouponApplied] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ const Cart = () => {
   return state.users;
  })
   const handleRemoveItem = (item) => {
-    //dispatch({ type: "REMOVE_ITEM", payload: item });
     dispatchRed(removeItem(item));
   };
 
