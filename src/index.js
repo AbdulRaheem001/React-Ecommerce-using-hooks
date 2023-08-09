@@ -1,17 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import { BrowserRouter } from 'react-router-dom';
+import { ProductProvider } from "./ContextFolder/ProductContext";
+import { AddtocartContext } from "./ContextFolder/AddtocartContext"; // Updated import name
+import { Provider } from 'react-redux';
+import userStore from "./Slice/userStor";
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <BrowserRouter>
+    <Provider store={userStore}>
+      <ProductProvider>
+        <AddtocartContext> {/* Updated context import */}
+          <App />
+        </AddtocartContext> {/* Updated context import */}
+      </ProductProvider>
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
