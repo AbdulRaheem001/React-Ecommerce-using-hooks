@@ -21,52 +21,32 @@ const Products = () => {
   const dispatchRed = useDispatch();
   const navigate = useNavigate();
 
-  const handleButtonClick = (event, product) => {
-    const button = event.currentTarget;
-    const card = button.closest(".card");
-    const overlayText = card.querySelector(".overlay-text");
-
-    if (overlayText.classList.contains("out-of-stock")) {
-      button.innerText = "Out of Stock";
-      button.disabled = true;
-      button.classList.add("out-of-stock-button");
-    } else {
-      button.innerText = "Add To Cart";
-      button.disabled = false;
-      button.classList.remove("out-of-stock-button");
+  const handleButtonClick = (product) => {
+    if (product.stockStatus !== "out-of-stock") {
       dispatchRed(addItem(product));
     }
   };
 
-  const handleViewCart = (event, item) => {
-    const button = event.currentTarget;
-    const card = button.closest(".card");
-    const overlayText = card.querySelector(".overlay-text");
-    if (overlayText.classList.contains("in-stock")) {
+  const handleViewCart = (item) => {
+    if (item.stockStatus === "in-stock") {
       dispatchRed(addItem(item));
       navigate("/cart");
     }
   };
-const ViewCart=() => {
-  navigate("/cart");
-};
+
   const filterProducts = (selectedFilter) => {
     const cards = document.querySelectorAll(".card");
 
     cards.forEach((card) => {
       const overlayText = card.querySelector(".overlay-text");
 
-      if (selectedFilter === FILTER_OPTIONS.ALL) {
-        card.style.display = "block";
-      } else {
-        const isVisible =
-          (selectedFilter === FILTER_OPTIONS.IN_STOCK &&
-            overlayText.classList.contains("in-stock")) ||
-          (selectedFilter === FILTER_OPTIONS.OUT_STOCK &&
-            overlayText.classList.contains("out-of-stock"));
+      const isVisible =
+        (selectedFilter === FILTER_OPTIONS.IN_STOCK &&
+          overlayText.classList.contains("in-stock")) ||
+        (selectedFilter === FILTER_OPTIONS.OUT_STOCK &&
+          overlayText.classList.contains("out-of-stock"));
 
-        card.style.display = isVisible ? "block" : "none";
-      }
+      card.style.display = isVisible ? "block" : "none";
     });
   };
   return (
@@ -96,13 +76,14 @@ const ViewCart=() => {
           <option value={FILTER_OPTIONS.IN_STOCK}>In Stock</option>
           <option value={FILTER_OPTIONS.OUT_STOCK}>Out of Stock</option>
         </select>
-        <button className="viewCart" onClick={()=>ViewCart()}>View Cart <FontAwesomeIcon
-                  icon={faCartShopping}/></button>
+        <button className="viewCart" onClick={() => navigate("/cart")}>
+          View Cart <FontAwesomeIcon icon={faCartShopping} />
+        </button>
       </div>
 
       <div className="card-container" style={{ backgroundColor: "lightgray" }}>
         {productData.map((product) => (
-          <div key={product.id} className="card">
+          <div key={product.id} className={`card ${product.stockStatus}`}>
             <Link
               to={`/products/${product.id}`}
               key={product.id}
@@ -138,16 +119,24 @@ const ViewCart=() => {
               <div className="view-card-icon">
                 <FontAwesomeIcon
                   icon={faCartShopping}
-                  onClick={(event) => handleViewCart(event, product)}
+                  onClick={() => handleViewCart(product)}
                 />
               </div>
             </div>
 
             <div className="btdiv">
               <button
-                className="btnAdd"
-                onClick={(event) => handleButtonClick(event, product)}
-                style={{ backgroundColor: " #869E86" }}
+                className={`btnAdd ${
+                  product.stockStatus === "out-of-stock"
+                    ? "out-of-stock-button"
+                    : ""
+                }`}
+                onClick={() => handleButtonClick(product)}
+                style={{
+                  backgroundColor:
+                    product.stockStatus === "out-of-stock" ? "red" : "#869E86",
+                }}
+                disabled={product.stockStatus === "out-of-stock"}
               >
                 Add To Cart <FontAwesomeIcon icon={faCartPlus} />
               </button>

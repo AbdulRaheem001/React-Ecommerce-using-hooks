@@ -7,7 +7,8 @@ import Cart from "./Compoment/Cart";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Contatus from './Compoment/Contatus';
 import ProductDetails from './Compoment/ProductDetails';
-
+import Checkout from './Compoment/Checkout';
+import Review from './Compoment/Review';
 function App() {
   return (
     
@@ -17,7 +18,11 @@ function App() {
         <Route exact path="/products" element={<Products />} />
         <Route exact path="/content" element={<Contatus />} />
         <Route exact path="/products/:id" element={<ProductDetails />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path='/rewiew' element={<Review />} />
+        
+       
       </Routes>
     
   );

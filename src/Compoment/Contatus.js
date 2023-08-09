@@ -3,11 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {useParams} from "react-router-dom";
 import "../Styles/Contatus.css"; // Import your custom CSS file for additional styling
-
+import Navigation from "./Navigation";
 function Contatus() {
   
   return (
+    <>
+    <Navigation />
     <div className="contatus-container">
+
       <Form>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
@@ -41,6 +44,7 @@ function Contatus() {
         </Button>
       </Form>
     </div>
+    </>
   );
 }
 

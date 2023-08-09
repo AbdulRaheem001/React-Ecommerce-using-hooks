@@ -145,10 +145,14 @@ const Cart = () => {
               </button>
               <br/><br/><br/><br/><br/>
             </div>
+            <button className="ConfirmOrder" onClick={()=>navigate("/checkout")}>Check Out</button>
           </div>
         </div>
+
       )}
+    
     </div>
+    //onClick={() => navigate("/cart")
   );
 };
 
