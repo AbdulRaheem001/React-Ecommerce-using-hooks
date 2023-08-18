@@ -7,8 +7,6 @@ import "../Styles/Cart.css";
 
 const Cart = () => {
 
-  const [coupon, setCoupon] = useState(10);
-  const [couponApplied, setCouponApplied] = useState(false);
   const navigate = useNavigate();
   const dispatchRed = useDispatch();
  const data=useSelector((state)=>{
@@ -18,33 +16,7 @@ const Cart = () => {
     dispatchRed(removeItem(item));
   };
 
-  const handleCouponChange = (e) => {
-    setCoupon(e.target.value);
-  };
-  const handleApplyCoupon = () => {
-    if (coupon === "pak1122") {
-      // Set the couponApplied state to true to apply the discount
-      setCouponApplied(true);
-      calculateTotalBill();
-    } else {
-      // Set the couponApplied state to false if the coupon is not applied
-      setCouponApplied(false);
-    }
-  };
-  
-  const calculateTotalBill = () => {
-    let total = data.items.reduce(
-      (subtotal, item) => subtotal + item.price * item.quantity,
-      0
-    );
-    // Apply coupon discount if coupon is applied
-    if (couponApplied) {
-      const discountAmount = (total * 0.1).toFixed(2); // 10% discount
-      total = (total - discountAmount).toFixed(2);
-      
-    }
-    return total;
-  };
+
   const calculatesubTotalBill = () => {
     let total = data.items.reduce(
       (subtotal, item) => subtotal + item.price * item.quantity,
@@ -115,6 +87,7 @@ const Cart = () => {
             </tbody>
           </table>
           <div className="cart-total">
+            <center>
             <table className="total-table">
               <tbody>
                 <tr>
@@ -125,27 +98,11 @@ const Cart = () => {
                   <td>Subtotal:</td>
                   <td>${calculatesubTotalBill()}</td>
                 </tr>
-                <tr>
-                  <td>Total:</td>
-                  <td>${calculateTotalBill()}</td>
-                </tr>
               </tbody>
             </table>
-
-            <div className="coupon-container">
-              <input
-                type="text"
-                placeholder="Enter Coupon Code"
-                value={coupon}
-                onChange={handleCouponChange}
-                className="coupon-input"
-              />
-              <button className="confirm-button" onClick={handleApplyCoupon}>
-                Apply Coupon
-              </button>
-              <br/><br/><br/><br/><br/>
-            </div>
-            <button className="ConfirmOrder" onClick={()=>navigate("/checkout")}>Check Out</button>
+            </center>
+           <center>
+            <button className="ConfirmOrder" v onClick={()=>navigate("/checkout")}>Check Out</button></center>
           </div>
         </div>
 

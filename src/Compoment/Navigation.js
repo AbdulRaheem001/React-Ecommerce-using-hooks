@@ -5,9 +5,13 @@ import '../Styles/Navebar.css';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
   const handleMenuClick = () => {
     setIsMenuOpen((prevState) => !prevState);
+  };
+  const logoutUser = () => {
+    window.sessionStorage.clear();
+    
   };
   useEffect(() => {
     console.log(location);
@@ -26,10 +30,14 @@ const Navigation = () => {
           <Link to="/about" className={`nav-link ${location.pathname === "/about" ? 'active' : ''}`} onClick={handleMenuClick}>About</Link>
         </li>
         <li className="nav-item">
-          <Link to="/products" className={`nav-link ${location.pathname === "/products" ? 'active' : ''}`} onClick={handleMenuClick}>Products</Link>
+          <Link to="/content" className={`nav-link ${location.pathname === "/content" ? 'active' : ''}`} onClick={handleMenuClick}>Contac US</Link>
         </li>
         <li className="nav-item">
-          <Link to="/content" className={`nav-link ${location.pathname === "/content" ? 'active' : ''}`} onClick={handleMenuClick}>Contac US</Link>
+        {isLoggedIn ? (
+            <Link to="/" className={`nav-link ${location.pathname === "/" ? 'active' : ''}`} onClick={logoutUser}>SignOut</Link>
+          ) : (
+            <Link to="/signin" className={`nav-link ${location.pathname === "/signin" ? 'active' : ''}`} onClick={handleMenuClick}>SignIn</Link>
+          )}
         </li>
         
       </ul>

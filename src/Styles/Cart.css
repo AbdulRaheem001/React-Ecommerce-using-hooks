@@ -47,19 +47,6 @@
   margin-bottom: 10px;
 }
 
-.coupon-container {
-  display: flex;
-  align-items: center;
-  width: 30%;
-}
-
-
-.coupon-input {
-  flex: 1;
-  padding: 5px;
-  margin-right: 10px;
-}
-
 .confirm-button {
   background-color: #007bff;
   color: #fff;
@@ -75,15 +62,11 @@
 
 .total-table {
   width: 40%;
-  position: absolute;
-  margin-left: 52%;
-  margin-right: 5%;
   border-collapse: collapse;
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 5px;
 }
-
 
 .total-table tr:nth-child(odd) {
   background-color: lightgray;
@@ -101,12 +84,19 @@
 .total-table td:nth-child(even) {
   text-align: right;
 }
+.ConfirmOrder{
+  width: 20%;
+  background-color:#007bff;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  font-weight: bold;
+}
 @media (max-width: 1084px) {
   .total-table {
   width: 40%;
-  position: absolute;
-  margin-left: 52%;
-  margin-right: 5%;
   border-collapse: collapse;
   border: 1px solid #ddd;
   padding: 10px;
@@ -148,6 +138,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px;
+    margin-left: 0%;
   }
   
   .coupon-container {

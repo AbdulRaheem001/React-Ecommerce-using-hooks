@@ -6,6 +6,7 @@ import "../Styles/Products.css";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../ContextFolder/ProductContext";
 const Home = () => {
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
   const { productData } = useContext(ProductContext);
   const inStockProducts = productData.filter(
     (product) => product.stockStatus === "in-stock"
@@ -20,21 +21,21 @@ const Home = () => {
         <div className="hero-content">
           <h1 className="hero-title">Welcome to Our Website</h1>
           <p className="hero-subtitle">Discover the Best Products for You</p>
-          <Link to={`/products`} className="shop-now-link">
-          Shop now
+          <Link to={`/signup`} className="shop-now-link">
+          Sign-Up
         </Link>
         </div>
       </div>
       <div className="explore-container">
         <h1 className="explore-heading">Explore New Arrivals</h1>
-        <Link to={`/products`} className="shop-now-link">
+        <Link to={isLoggedIn?`/products`: '/signin'} className="shop-now-link">
           Shop now
         </Link>
       </div>
       <div className="card-container" style={{ marginTop: "2%" }}>
         {inStockProducts.map((product) => (
           <div key={product.id} className="card">
-            <Link to={`/products`} className="card-link">
+            <Link to={isLoggedIn?`/products`: '/signin'} className="card-link">
               <div className="image-container">
                 <img
                   className="card-img-top"
