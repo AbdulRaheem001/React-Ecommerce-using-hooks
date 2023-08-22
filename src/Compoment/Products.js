@@ -92,7 +92,7 @@ const Products = () => {
               <div className="image-container">
                 <img
                   className="card-img-top"
-                  src={product.image}
+                  src={product.imageUrl}
                   alt="Card image"
                 />
                 <p
@@ -112,10 +112,10 @@ const Products = () => {
               <h4 className="card-title">{product.name}</h4>
               <p className="card-text">{product.description}</p>
               <p className="crd-price">
-                ${product.price.toFixed(2)}{" "}
-                <del>${product.originalPrice.toFixed(2)}</del>
+                ${product.discountPrice.toFixed(2)}{" "}
+                <del>${product.actualPrice.toFixed(2)}</del>
               </p>
-              <p>{product.discount}% off!</p>
+              <p>{product.discountPercentage}% off!</p>
               <div className="view-card-icon">
                 <FontAwesomeIcon
                   icon={faCartShopping}

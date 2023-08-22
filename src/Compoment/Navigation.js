@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 import '../Styles/Navebar.css';
-
+import { useDispatch } from "react-redux";
+import { setLoginState } from "../Slice/userSlice";
 const Navigation = () => {
+  const dispatch = useDispatch(); 
+  const navigate=useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -11,6 +14,8 @@ const Navigation = () => {
   };
   const logoutUser = () => {
     window.sessionStorage.clear();
+    dispatch(setLoginState(false));
+    navigate('/', { replace: true });
     
   };
   useEffect(() => {

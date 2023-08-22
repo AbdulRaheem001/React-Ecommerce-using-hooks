@@ -19,7 +19,7 @@ const Cart = () => {
 
   const calculatesubTotalBill = () => {
     let total = data.items.reduce(
-      (subtotal, item) => subtotal + item.price * item.quantity,
+      (subtotal, item) => subtotal + item.discountPrice * item.quantity,
       0
     );
     return total;
@@ -64,19 +64,19 @@ const Cart = () => {
                 <tr key={item.id}>
                   <td>
                     <img
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.name}
                       className="item-image"
                     />
                     {item.name}
                   </td>
-                  <td>${item.price}</td>
+                  <td>${item.discountPrice}</td>
                   <td>  <input
                 type="number"
                 value={item.quantity}
                 onChange={(e) => handleQuantityChange(e, item)}
               /></td>
-                  <td>${item.price}</td>
+                  <td>${item.discountPrice}</td>
                   <td>
                     <button onClick={() => handleRemoveItem(item)}>
                       Remove

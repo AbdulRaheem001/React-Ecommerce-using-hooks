@@ -1,4 +1,4 @@
-import React,{useState,useContext,useEffect} from "react";
+import React,{useState,useEffect} from "react";
 import { Box, TextField, Typography, Avatar, Button, IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/SignUp.css";
@@ -10,52 +10,14 @@ import * as Yup from "yup";
 import Visibility from "@mui/icons-material/Visibility"; // Import Visibility Icon
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { global } from "../App";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setLoginState } from "../Slice/userSlice";
 function SignIn() {
-  // const navigate = useNavigate();
-  // const { userLogin } = useContext(global);
-   const [showPassword, setShowPassword] = useState(false); 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     email: "",
-  //     password: "",
-  //   },
-  //   validationSchema: Yup.object({
-  //     email: Yup.string().email("Invalid email address").required("Required"),
-  //     password: Yup.string()
-  //       .max(20, "Must be 20 characters or less")
-  //       .min(8, "Minimum 8 character Password Required.")
-  //       .required("Password Required"),
-        
-  //   }),
-  //   onSubmit: (values) => {
-  //     const userObj = {
-  //       Email: values.email,
-  //       Password: values.password,
-  //     };
-  //     console.log(userObj);
-  //     axios
-  //       .post("http://localhost:5000/api/routes/signin",userObj, {
-  //         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //       })
-  //       .then((res) => {
-  //         userLogin();
-  //         navigate("/products");
-  //         console.log(res);
-  //         sessionStorage.setItem("isLoggedIn", "true");
-  //         sessionStorage.setItem(
-  //           "userToken",
-  //           JSON.stringify(res?.data.token)
-  //         );
-
-  //       })
-  //       .catch((err) => {
-  //         toast.error(err.response.data);
-  //       });
-  //   },
-  // });
-  const { userLogin } = useContext(global);
+  
+  const [showPassword, setShowPassword] = useState(false); 
+  const dispatch = useDispatch(); 
+  
   const navigate = useNavigate();
   const [user, setUser] = useState();
   const formik = useFormik({
@@ -84,26 +46,28 @@ function SignIn() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res?.data.token);
+        dispatch(setLoginState(true));
+        const { token, userType } = res?.data;
+        console.log(userType);
+        dispatch(setUserType(userType));
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem(
-         
           "userToken",
-          JSON.stringify(res?.data.token)
+          JSON.stringify(token)
         );
-        userLogin();
         navigate("/products");
       })
       .catch((err) => {
         toast.error(err.response.data);
       });
-  }, [navigate, userLogin, user]);
+  }, [navigate, user]);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   return (
     <>
+    
       <Navigation />
       <Box className="MainContent" >
         <Box className="img-Con">

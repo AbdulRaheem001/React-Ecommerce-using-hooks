@@ -1,6 +1,14 @@
-import React,{useState} from "react";
-import { Box, TextField, Typography, Avatar, Button, IconButton } from "@mui/material";
-import { Link , useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import {
+  Box,
+  TextField,
+  Typography,
+  Avatar,
+  Button,
+  IconButton,
+  MenuItem,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import "../Styles/SignUp.css";
 import signupImg from "../img/signupimage.jpeg";
 import signup from "../img/signup.png";
@@ -12,15 +20,16 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 function SignUp() {
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false); 
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      Conpassword:"",
+      Conpassword: "",
+      userType: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -31,15 +40,17 @@ function SignUp() {
         .max(20, "Must be 20 characters or less")
         .min(8, "Minimum 8 character Password Required.")
         .required("Password Required"),
-        Conpassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match') // Check if Conpassword matches password
-        .required('Confirm Password is required'),   
+      Conpassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match") // Check if Conpassword matches password
+        .required("Confirm Password is required"),
+        userType: Yup.string().required("User Type is required"),
     }),
     onSubmit: (values) => {
       const userObj = {
         Name: values.name,
         Email: values.email,
         Password: values.password,
+        userType: values.userType,
       };
       console.log(userObj);
       axios
@@ -49,8 +60,6 @@ function SignUp() {
         .then((res) => {
           navigate("/signIn");
           console.log(res);
-
-
         })
         .catch((err) => {
           toast.error(err.response.data);
@@ -67,7 +76,7 @@ function SignUp() {
   return (
     <>
       <Navigation />
-      <Box className="MainContent" >
+      <Box className="MainContent">
         <Box className="img-Con">
           <img className="img" src={signupImg} alt="Signup" />
         </Box>
@@ -75,17 +84,19 @@ function SignUp() {
           <Box className="header">
             <center>
               <Avatar style={{ m: 1, bgcolor: "secondary.main" }}>
-                <img  src={signup} alt="Signup Avatar" />
+                <img src={signup} alt="Signup Avatar" />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
             </center>
           </Box>
-          <Box className="body-con"
-          component="form"
-          noValidate
-          onSubmit={formik.handleSubmit}>
+          <Box
+            className="body-con"
+            component="form"
+            noValidate
+            onSubmit={formik.handleSubmit}
+          >
             <TextField
               className="textField"
               id="name"
@@ -99,7 +110,8 @@ function SignUp() {
             {formik.touched.name && formik.errors.name ? (
               <div style={{ color: "red" }}>{formik.errors.name}</div>
             ) : null}
-<br/><br/>
+            <br />
+            <br />
             <TextField
               className="textField"
               id="email"
@@ -113,7 +125,27 @@ function SignUp() {
             {formik.touched.email && formik.errors.email ? (
               <div style={{ color: "red" }}>{formik.errors.email}</div>
             ) : null}
-            <br/><br/>
+            <br />
+            <br />
+            <TextField
+              className="textField"
+              id="userType"
+              name="userType"
+              select
+              label="User Type"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.userType}
+            >
+              <MenuItem value="customer">Customer</MenuItem>
+              <MenuItem value="shopKeeper">Shop Keeper</MenuItem>
+              <MenuItem value="manager">Manager</MenuItem>
+            </TextField>
+            {formik.touched.userType && formik.errors.userType ? (
+              <div style={{ color: "red" }}>{formik.errors.userType}</div>
+            ) : null}
+            <br />
+            <br />
             <TextField
               className="textField"
               id="password"
@@ -134,7 +166,8 @@ function SignUp() {
             {formik.touched.password && formik.errors.password ? (
               <div style={{ color: "red" }}>{formik.errors.password}</div>
             ) : null}
-            <br/><br/>
+            <br />
+            <br />
             <TextField
               className="textField"
               id="Conpassword"

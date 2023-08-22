@@ -11,7 +11,7 @@ export default function PaymentForm() {
     return state.users;
    })
    const total = data.items.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.discountPrice * item.quantity,
     0
   );
   return (
@@ -26,15 +26,15 @@ export default function PaymentForm() {
               <TableRow key={item.id}>
                 <TableCell>
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                     style={{ width: "50px", marginRight: "10px" }}
                   />
                   {item.name}
                 </TableCell>
-                <TableCell align="right">${item.price}</TableCell>
+                <TableCell align="right">${item.discountPrice}</TableCell>
                 <TableCell align="right">{item.quantity}</TableCell>
-                <TableCell align="right">${item.price * item.quantity}</TableCell>
+                <TableCell align="right">${item.discountPrice * item.quantity}</TableCell>
               </TableRow>
             ))}
             <TableRow>
